@@ -81,16 +81,18 @@ pub fn start(){
     help();
 }
 
-pub fn switch() -> String {
-    let mut choice= String::new();
+pub fn switch(opt: String) -> String {
+    let mut choice = opt;
 
-    print!("\nmenu -> Votre choix : ");
+    if "" == choice {
+        print!("\nmenu -> Votre choix : ");
 
-    io::stdout().flush().unwrap();
+        io::stdout().flush().unwrap();
 
-    io::stdin()
-        .read_line(&mut choice)
-        .expect("Echec de la lecture de l'entrée utilisateur");
+        io::stdin()
+            .read_line(&mut choice)
+            .expect("Echec de la lecture de l'entrée utilisateur");
+    }
 
     let choice: &str = &*choice.trim();
 
@@ -102,5 +104,5 @@ pub fn switch() -> String {
         _=> println!("choix non existant taper h pour l'aide")
     }
 
-    return choice.to_string();
+    choice.to_string()
 }
