@@ -10,7 +10,14 @@ fn switcher_argument(opt: &str) -> bool {
     match  opt {
         "-g" | "--games" => exit="g",
         "-c" | "--compare" => exit="c",
-        "-h" | "--help" => ihm::help_argument(),
+        "-v" | "--version" => {
+            ihm::version();
+            ret=true;
+        },
+        "-h" | "--help" => {
+            ihm::help_argument();
+            ret=true;
+        },
         _ => {
             ihm::error_argumet();
             ret= true;

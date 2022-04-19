@@ -75,6 +75,19 @@ fn help() {
     println!("taper h pour l'aide");
 }
 
+pub fn version() {
+
+    let machine_kind = if cfg!(target_os = "linux") {
+            "linux"
+        } else if cfg!(target_os = "windows") {
+            "windows"
+        } else {
+            "unknown"
+    };
+
+    println!("{}: 0.0.1a\n", machine_kind)
+}
+
 pub fn error_argumet() {
 
     eprintln!("Erreur --> argument inconue");
@@ -82,6 +95,8 @@ pub fn error_argumet() {
 }
 
 pub fn help_argument() {
+
+    version();
 
     println!("-g | --games\t lance le jeux
 -c | --compare\t lance la comparaison
@@ -92,7 +107,7 @@ pub fn help_argument() {
 
 pub fn start(){
     println!("Bienvenue dans mon programe rust");
-    println!("v 0.0.1a");
+    version();
     help();
 }
 
@@ -100,7 +115,7 @@ pub fn switch(opt: &str) -> String {
     let mut choice: String = opt.to_string();
 
     if "" == choice {
-        print!("\nmenu -> Votre choix : ");
+        print!("menu -> Votre choix : ");
 
         io::stdout().flush().unwrap();
 
