@@ -1,18 +1,49 @@
 use std::io::{self, Write};
 use std::cmp::Ordering;
 
-mod rand_number_game;
+mod utilities;
 
+fn extend_string()
+{
+    let mut text_a = String::new();
+    let mut text_b = String::new();
+    let mut tampon = String::new();
+
+    print!("Entrer votre texte : ");
+    io::stdout().flush().unwrap();
+
+     io::stdin()
+            .read_line(&mut text_a)
+            .expect("Echec de la lecture de l'entrée utilisateur");
+
+    print!("Entrer l'extention du texte : ");
+    io::stdout().flush().unwrap();
+
+    io::stdin()
+            .read_line(&mut tampon)
+            .expect("Echec de la lecture de l'entrée utilisateur");
+
+    text_b += text_a.trim();
+    text_b.push_str(" ");
+    text_b += tampon.trim();
+
+    let (text_a, size_a) = utilities::size_string(text_a.trim().to_string());
+    let (text_b, size_b) = utilities::size_string(text_b);
+    let diff = utilities::simpl_less(size_b, size_a);
+
+    println!("taille du texte : {}. Est de : {}", text_a.trim(), size_a);
+    println!("A pour diférences {} - {} = {} du texte: {}", size_b, size_a, diff, text_b.trim());
+
+}
 fn termui_games(){
-    let num_search: u32 = rand_number_game::rand_number(1, 101);
+    let num_search: u32 = utilities::rand_number(1, 101);
     println!("Trouver le bon nombre");
 
     loop {
-        print!("Veuillez entrer un nombre  : ");
-
-        io::stdout().flush().unwrap();
-
         let mut supposition = String::new();
+
+        print!("Veuillez entrer un nombre  : ");
+        io::stdout().flush().unwrap();
 
         io::stdin()
             .read_line(&mut supposition)
@@ -40,6 +71,7 @@ fn termui_games(){
 fn help() {
     println!("\ntaper g pour lancer le jeux trouver un nombre aléatoire");
     println!("taper f pour fermer le programe");
+    println!("taper c pour soustraire deux texte");
     println!("taper h pour l'aide");
 }
 
@@ -64,6 +96,7 @@ pub fn switch() -> String {
 
     match  choice {
         "g" => termui_games(),
+        "c" => extend_string(),
         "h" => help(),
         "f" => println!("Fermeture de l'application"),
         _=> println!("choix non existant taper h pour l'aide")
