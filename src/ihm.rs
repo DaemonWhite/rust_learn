@@ -75,14 +75,29 @@ fn help() {
     println!("taper h pour l'aide");
 }
 
+pub fn error_argumet() {
+
+    eprintln!("Erreur --> argument inconue");
+
+}
+
+pub fn help_argument() {
+
+    println!("-g | --games\t lance le jeux
+-c | --compare\t lance la comparaison
+-h | --help\t voire l'aide
+    ");
+
+}
+
 pub fn start(){
     println!("Bienvenue dans mon programe rust");
     println!("v 0.0.1a");
     help();
 }
 
-pub fn switch(opt: String) -> String {
-    let mut choice = opt;
+pub fn switch(opt: &str) -> String {
+    let mut choice: String = opt.to_string();
 
     if "" == choice {
         print!("\nmenu -> Votre choix : ");
