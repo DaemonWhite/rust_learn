@@ -1,11 +1,14 @@
 [default]
 name=Default
 runtime=host
-toolchain=default
+toolchain=gcc:/usr/bin/x86_64-unknown-linux-gnu-gcc
 config-opts=
-run-opts=-c
+run-opts=
 prefix=/home/matheo/.var/app/org.gnome.Builder/cache/gnome-builder/install/rust_learn/host
 app-id=
 postbuild=
 prebuild=
 default=true
+
+[default.runtime_environment]
+RUST_BACKTRACE=full

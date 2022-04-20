@@ -1,6 +1,7 @@
 use std::env;
 
 mod ihm;
+mod lib;
 
 fn switcher_argument(opt: &str) -> bool {
 

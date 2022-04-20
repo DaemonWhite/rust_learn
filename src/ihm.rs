@@ -3,6 +3,9 @@ use std::cmp::Ordering;
 
 mod utilities;
 
+use crate::lib::Word;
+
+
 fn extend_string()
 {
     let mut text_a = String::new();
@@ -35,7 +38,30 @@ fn extend_string()
     println!("A pour diférences {} - {} = {} du texte: {}", size_b, size_a, diff, text_b.trim());
 
 }
-fn termui_games(){
+
+fn games_solve_word() {
+    let mut word = Word::new();
+
+    println!("Donner le mot a trouver");
+
+    io::stdin()
+            .read_line(&mut word.search)
+            .expect("Echec de la lecture de l'entrée utilisateur");
+
+    word.search = word.search.trim().to_string();
+
+    utilities::clear();
+
+    word.mixt = utilities::simple_melangeur(&word.search);
+
+    word.add();
+
+    println!("ok : {} \n {}", word.mixt, word.same());
+
+}
+
+
+fn games_solve_number(){
     let num_search: u32 = utilities::rand_number(1, 101);
     println!("Trouver le bon nombre");
 
@@ -127,7 +153,8 @@ pub fn switch(opt: &str) -> String {
     let choice: &str = &*choice.trim();
 
     match  choice {
-        "g" => termui_games(),
+        "g" => games_solve_number(),
+        "w" => games_solve_word(),
         "c" => extend_string(),
         "h" => help(),
         "f" => println!("Fermeture de l'application"),
