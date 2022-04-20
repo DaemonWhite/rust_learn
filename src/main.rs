@@ -9,7 +9,8 @@ fn switcher_argument(opt: &str) -> bool {
     let mut ret:bool = false;
 
     match  opt {
-        "-g" | "--games" => exit="g",
+        "-n" | "--number" => exit="n",
+        "-s" | "--search" => exit="s",
         "-c" | "--compare" => exit="c",
         "-v" | "--version" => {
             ihm::version();

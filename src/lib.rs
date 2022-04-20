@@ -6,13 +6,14 @@ pub struct Word {
 
 impl Word {
     pub fn new() -> Word {
-        Word { search: "".to_string() , essaie: 0, mixt: "".to_string() }
+        Word { search: "".to_string() , essaie: 1, mixt: "".to_string() }
     }
-    pub fn add(&mut self)  {
+    fn add(&mut self)  {
         self.essaie += 1;
     }
-    pub fn same(&self) -> bool {
-        self.search == self.mixt
+    pub fn same(&mut self, send: &String) -> bool {
+        self.add();
+        self.search.eq(send)
     }
     pub fn get_essai(&self) -> u32 {
         self.essaie

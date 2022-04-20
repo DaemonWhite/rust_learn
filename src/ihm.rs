@@ -42,7 +42,8 @@ fn extend_string()
 fn games_solve_word() {
     let mut word = Word::new();
 
-    println!("Donner le mot a trouver");
+    print!("Donner le mot a trouver : ");
+    io::stdout().flush().unwrap();
 
     io::stdin()
             .read_line(&mut word.search)
@@ -54,10 +55,24 @@ fn games_solve_word() {
 
     word.mixt = utilities::simple_melangeur(&word.search);
 
-    word.add();
+    loop {
+        let mut send = String::new();
 
-    println!("ok : {} \n {}", word.mixt, word.same());
+        println!("Mot a retrouver : {} \nEssai : {}", word.mixt, word.get_essai());
+        print!("Reponce : ");
+        io::stdout().flush().unwrap();
 
+        io::stdin()
+            .read_line(&mut send)
+            .expect("Echec de la lecture de l'entrée utilisateur");
+
+        let send = send.trim().to_string();
+
+        if word.same(&send) {
+            println!("Victoire!");
+            break;
+        }
+    }
 }
 
 
@@ -95,7 +110,8 @@ fn games_solve_number(){
 }
 
 fn help() {
-    println!("\ntaper g pour lancer le jeux trouver un nombre aléatoire");
+    println!("\ntaper n pour lancer le jeux trouver un nombre aléatoire");
+    println!("taper s pour lancer le jeux trouver un nombre");
     println!("taper f pour fermer le programe");
     println!("taper c pour soustraire deux texte");
     println!("taper h pour l'aide");
@@ -124,7 +140,8 @@ pub fn help_argument() {
 
     version();
 
-    println!("-g | --games\t lance le jeux
+    println!("-n | --number\t Lance le jeux trouve le bon nombre
+-s | --search\t trouve le bon mot
 -c | --compare\t lance la comparaison
 -h | --help\t voire l'aide
     ");
@@ -153,8 +170,8 @@ pub fn switch(opt: &str) -> String {
     let choice: &str = &*choice.trim();
 
     match  choice {
-        "g" => games_solve_number(),
-        "w" => games_solve_word(),
+        "n" => games_solve_number(),
+        "s" => games_solve_word(),
         "c" => extend_string(),
         "h" => help(),
         "f" => println!("Fermeture de l'application"),
