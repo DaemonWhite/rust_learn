@@ -1,0 +1,32 @@
+{
+    "app-id" : "org.daemonwhite.rustLearn",
+    "runtime" : "org.gnome.Sdk",
+    "runtime-version" : "42",
+    "sdk" : "org.gnome.Sdk",
+    "sdk-extensions" : [
+        "org.freedesktop.Sdk.Extension.rust-stable"
+    ],
+    "command" : "rust_learn",
+    "build-options" : {
+        "append-path" : "/usr/lib/sdk/rust-stable/bin",
+        "build-args" : [
+            "--share=network"
+        ],
+        "env" : {
+            "RUST_BACKTRACE" : "full"
+        }
+    },
+    "modules" : [
+        {
+            "name" : "rust_learn",
+            "buildsystem" : "meson",
+            "config-opts" : [],
+            "sources" : [
+                {
+                    "type" : "git",
+                    "url" : "https://github.com/DaemonWhite/rust_learn"
+                }
+            ]
+        }
+    ]
+}

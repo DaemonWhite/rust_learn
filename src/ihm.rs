@@ -58,7 +58,7 @@ fn games_solve_word() {
     loop {
         let mut send = String::new();
 
-        println!("Mot a retrouver : {} \nEssai : {}", word.mixt, word.get_essai());
+        println!("Mot a retrouver : {} \nEssai : {}", word.mixt, word.get_num_try());
         print!("Reponce : ");
         io::stdout().flush().unwrap();
 
@@ -73,6 +73,38 @@ fn games_solve_word() {
             break;
         }
     }
+    loop {
+            let mut view_essai = String::new();
+            print!("Voulez vous voir vos essai? [y/n] ");
+            io::stdout().flush().unwrap();
+
+            io::stdin()
+                .read_line(&mut view_essai)
+                .expect("Echec de la lecture de l'entrée utilisateur");
+
+            let view_essai: &str = &*view_essai.trim();
+
+            match view_essai {
+                "y" => {
+                    result_game_world(&word);
+                    break;
+                },
+                "n" => break,
+                _=> println!("Valeur inconue")
+            }
+        }
+        println!("\nFermeture du jeux\n");
+}
+
+fn result_game_world(word: &Word) {
+    let size = word.get_num_try()-1;
+
+    println!("| Essai\t | testé\t ");
+    println!("____________________");
+    for i in 0..size {
+        println!("| {}\t | {}\t ", i+1,word.get_name_try(i));
+    }
+
 }
 
 
@@ -111,7 +143,7 @@ fn games_solve_number(){
 
 fn help() {
     println!("\ntaper n pour lancer le jeux trouver un nombre aléatoire");
-    println!("taper s pour lancer le jeux trouver un nombre");
+    println!("taper s pour lancer le jeux trouver le bon mot");
     println!("taper f pour fermer le programe");
     println!("taper c pour soustraire deux texte");
     println!("taper h pour l'aide");
@@ -141,7 +173,7 @@ pub fn help_argument() {
     version();
 
     println!("-n | --number\t Lance le jeux trouve le bon nombre
--s | --search\t trouve le bon mot
+-s | --search\t Lance le jeux trouve le bon mot
 -c | --compare\t lance la comparaison
 -h | --help\t voire l'aide
     ");

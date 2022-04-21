@@ -1,5 +1,5 @@
 use rand::Rng;
-use std::process::Command;
+use clearscreen::ClearScreen;
 
 use crate::lib::VecteurString;
 
@@ -29,27 +29,21 @@ pub fn simpl_less(a: usize,b: usize) -> usize {
 }
 
 pub fn clear() {
-    println!("coucou");
 
-    if cfg!(target_os = "windows") {
-        Command::new("cls")
-            .status()
-            .expect("failed to execute process");
+    if cfg!( target_os = "windows" ) {
+        ClearScreen::Cls.clear().expect("Impossible d'éffacer le terminale");
     } else {
-        Command::new("clear")
-                .status()
-                .expect("teste");
-    };
+        ClearScreen::default().clear().expect("Impossible d'éffacer le terminal");
+    }
 }
 
 pub fn simple_melangeur(s: &String) -> String {
     let mut text = VecteurString::new(&s);
     let mut ret = String::new();
 
-    for i in 0..text.len() {
+    for _i in 0..text.len() {
         let nombre_secret: u32 = rand::thread_rng().gen_range(0..text.len());
         ret += &text.remove(nombre_secret);
-
     }
 
     ret

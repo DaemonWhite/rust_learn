@@ -1,6 +1,8 @@
 rust_learn_sources = [
   cargo_sources,
   'main.rs',
+  'lib.rs',
+  'ihm.rs',
 ]
 
 rust_learn_deps = [

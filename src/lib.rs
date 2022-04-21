@@ -1,22 +1,28 @@
 pub struct Word {
     pub search: String,
-    essaie: u32,
-    pub mixt: String,
+    num_try: u32,
+    arr_try: Vec<String>,
+    pub mixt: String
 }
 
 impl Word {
     pub fn new() -> Word {
-        Word { search: "".to_string() , essaie: 1, mixt: "".to_string() }
+        let arr_try = Vec::new();
+        Word { search: "".to_string() , num_try: 1, arr_try: arr_try ,mixt: "".to_string() }
     }
-    fn add(&mut self)  {
-        self.essaie += 1;
+    fn add(&mut self, save_try: &String)  {
+        self.arr_try.push(save_try.to_string());
+        self.num_try += 1;
     }
     pub fn same(&mut self, send: &String) -> bool {
-        self.add();
+        self.add(send);
         self.search.eq(send)
     }
-    pub fn get_essai(&self) -> u32 {
-        self.essaie
+    pub fn get_num_try(&self) -> u32 {
+        self.num_try
+    }
+    pub fn get_name_try(&self, num: u32) -> String {
+        self.arr_try[num as usize].to_string()
     }
 }
 
@@ -33,16 +39,8 @@ impl VecteurString {
         let load: u32 = self.text.len() as u32;
         load
     }
-    pub fn get(&self, num: u32) -> char {
+    fn get(&self, num: u32) -> char {
         self.text[num as usize]
-    }
-    pub fn get_integreat(&self) -> String {
-        let mut ret = String::new();
-
-        for i in 0..self.len() {
-            ret += &self.text[i as usize].to_string();
-        }
-        ret
     }
     pub fn remove(&mut self, num: u32) -> String {
         let mut letter = String::new();
