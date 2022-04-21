@@ -1,7 +1,8 @@
 [package]
 name = "rust_learn"
-version = "0.1.0"
-edition = "2018"
+version = "0.0.1"
+edition = "2021"
 [dependencies]
 rand = "0.8.5"
 clearscreen = "1.0.9"
+termcolor = "1.1.3"

@@ -12,6 +12,7 @@ fn switcher_argument(opt: &str) -> bool {
         "-n" | "--number" => exit="n",
         "-s" | "--search" => exit="s",
         "-c" | "--compare" => exit="c",
+        "-d" | "--disable-menu" => ret=true,
         "-v" | "--version" => {
             ihm::version();
             ret=true;

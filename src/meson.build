@@ -3,6 +3,8 @@ rust_learn_sources = [
   'main.rs',
   'lib.rs',
   'ihm.rs',
+  'ihm/utilities.rs',
+  'ihm/ihm_utilits.rs',
 ]
 
 rust_learn_deps = [
