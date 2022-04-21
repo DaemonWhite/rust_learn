@@ -94,7 +94,8 @@ fn games_solve_word() {
                 _=> println!("Valeur inconue")
             }
         }
-        println!("\nFermeture du jeux\n");
+        println!("");
+        ihm_utilits::info_col(1, &"Fermeture du jeux\n".to_string());
 }
 
 fn result_game_world(word: &Word) {
@@ -105,6 +106,7 @@ fn result_game_world(word: &Word) {
     for i in 0..size {
         println!("| {}\t | {}\t ", i+1,word.get_name_try(i));
     }
+    println!("____________________");
 
 }
 
@@ -140,6 +142,7 @@ fn games_solve_number(){
             }
         }
     }
+    ihm_utilits::info_col(1, &"Fermeture du jeux".to_string());
 }
 
 fn help() {
@@ -165,7 +168,7 @@ pub fn version() {
 
 pub fn error_argumet() {
 
-    eprintln!("Erreur --> argument inconue");
+    ihm_utilits::info_col(3, &"Arguement inconue".to_string());
 
 }
 
@@ -208,7 +211,7 @@ pub fn switch(opt: &str) -> String {
         "c" => extend_string(),
         "h" => help(),
         "f" => ihm_utilits::info_col(1, &"Fermeture de l'application".to_string()),
-        _=> println!("choix non existant taper h pour l'aide")
+        _=> ihm_utilits::info_col(2, &"Choix non existant taper h pour l'aide".to_string())
     }
 
     choice.to_string()
