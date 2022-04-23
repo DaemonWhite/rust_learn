@@ -5,7 +5,11 @@ project('rust_learn', 'rust',
                    ],
 )
 
+i18n = import('i18n')
+gnome = import('gnome')
 
+
+dependency('gtk4', version: '>= 4.4')
 
 
 cargo_sources = files(

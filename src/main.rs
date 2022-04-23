@@ -1,15 +1,20 @@
 use std::env;
 
 mod ihm;
+mod config;
 mod lib;
+mod ui;
 
 fn switcher_argument(opt: &str) -> bool {
 
     let mut exit: &str = "f";
     let mut ret:bool = false;
 
+    println!("{}", opt);
+
     match  opt {
         "-n" | "--number" => exit="n",
+        "-u" | "--ui"   => exit="u",
         "-s" | "--search" => exit="s",
         "-c" | "--compare" => exit="c",
         "-d" | "--disable-menu" => ret=true,

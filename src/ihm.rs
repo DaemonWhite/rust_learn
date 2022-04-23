@@ -4,6 +4,8 @@ use std::cmp::Ordering;
 mod utilities;
 mod ihm_utilits;
 
+use crate::ui;
+
 use crate::lib::Word;
 
 
@@ -149,6 +151,7 @@ fn help() {
     println!("\ntaper n pour lancer le jeux trouver un nombre aléatoire");
     println!("taper s pour lancer le jeux trouver le bon mot");
     println!("taper f pour fermer le programe");
+    println!("taper u pour l'interface de contage en graphique");
     println!("taper c pour soustraire deux texte");
     println!("taper h pour l'aide");
 }
@@ -178,6 +181,7 @@ pub fn help_argument() {
 
     println!("-n | --number\t Lance le jeux trouve le bon nombre
 -s | --search\t Lance le jeux trouve le bon mot
+-u | --ui\t lance l'interface counter
 -c | --compare\t lance la comparaison
 -h | --help\t voire l'aide
     ");
@@ -207,6 +211,7 @@ pub fn switch(opt: &str) -> String {
 
     match  choice {
         "n" => games_solve_number(),
+        "u" => ui::ui(),
         "s" => games_solve_word(),
         "c" => extend_string(),
         "h" => help(),
