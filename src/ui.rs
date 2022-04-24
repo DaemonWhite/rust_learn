@@ -18,9 +18,11 @@ pub fn ui() {
 
     let mut args: Vec<String> = env::args().collect();
     let size = args.len();
-    for i in 1..size {
-        args.swap_remove(i as usize);
+    for _i in 1..size {
+        args.swap_remove(1);
     }
+
+    println!("{:?}", args);
 
     // Run the application
     app.run_with_args(&args);
@@ -41,6 +43,11 @@ fn build_ui(app: &Application) {
         .label("-")
         .action_name("win.count")
         .action_target(&2.to_variant())
+        .build();
+    let button_reset = Button::builder()
+        .label("Reset")
+        .action_name("win.count")
+        .action_target(&3.to_variant())
         .build();
 
     let gtk_box_sub = gtk::Box::builder()
@@ -68,6 +75,7 @@ fn build_ui(app: &Application) {
         .build();
     gtk_box.append(&gtk_box_sub);
     gtk_box.append(&label);
+    gtk_box.append(&button_reset);
 
     // Create a window and set the title
     let window = ApplicationWindow::builder()
@@ -100,10 +108,11 @@ fn build_ui(app: &Application) {
             .get::<i32>()
             .expect("The value needs to be of type `i32`.");
 
-        if parameter == 1 {
-            state += 1;
-        } else {
-            state -= 1;
+        match parameter {
+            1 => state += 1,
+            2 => state -= 1,
+            3 => state = 0,
+            _ => unimplemented!()
         }
 
         ihm_utilits::info_col(1, &format!("value {} --> {} opt: {}", old_state, state, parameter));
