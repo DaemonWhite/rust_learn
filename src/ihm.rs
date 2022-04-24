@@ -2,7 +2,7 @@ use std::io::{self, Write};
 use std::cmp::Ordering;
 
 mod utilities;
-mod ihm_utilits;
+pub mod ihm_utilits;
 
 use crate::ui;
 
@@ -214,7 +214,10 @@ pub fn switch(opt: &str) -> String {
         "u" => ui::ui(),
         "s" => games_solve_word(),
         "c" => extend_string(),
-        "h" => help(),
+        "h" => {
+            help_argument();
+            help();
+        },
         "f" => ihm_utilits::info_col(1, &"Fermeture de l'application".to_string()),
         _=> ihm_utilits::info_col(2, &"Choix non existant taper h pour l'aide".to_string())
     }

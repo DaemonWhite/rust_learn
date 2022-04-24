@@ -2,19 +2,28 @@ use gio::SimpleAction;
 use glib::clone;
 use gtk::{gio, glib};
 use gtk::{prelude::*, Align};
-use gtk::{Application, ApplicationWindow, Button, Label, Orientation};
+use gtk::{Application,ApplicationWindow, Button, Label, Orientation};
+
+use std::env;
+
+use crate::config::{APP_ID,GETTEXT_PACKAGE};
+use crate::ihm::ihm_utilits;
 
 pub fn ui() {
     // Create a new application
-    let app = Application::builder()
-        .application_id("org.daemonwhite.rustLearn")
-        .build();
+    let app = Application::new(Some(APP_ID), Default::default());
 
     // Connect to "activate" signal of `app`
     app.connect_activate(build_ui);
 
+    let mut args: Vec<String> = env::args().collect();
+    let size = args.len();
+    for i in 1..size {
+        args.swap_remove(i as usize);
+    }
+
     // Run the application
-    app.run();
+    app.run_with_args(&args);
 }
 
 fn build_ui(app: &Application) {
@@ -63,7 +72,7 @@ fn build_ui(app: &Application) {
     // Create a window and set the title
     let window = ApplicationWindow::builder()
         .application(app)
-        .title("rust_learn")
+        .title(GETTEXT_PACKAGE)
         .width_request(360)
         .child(&gtk_box)
         .build();
@@ -77,13 +86,13 @@ fn build_ui(app: &Application) {
 
     action_count.connect_activate(clone!(@weak label => move |action, parameter| {
         // Get state
-        let mut state = action
+        let old_state = action
         .state()
         .expect("Could not get state.")
         .get::<i32>()
         .expect("The value needs to be of type `i32`.");
 
-        println!("actio : {}", state);
+        let mut state = old_state;
 
         // Get parameter
         let parameter = parameter
@@ -91,19 +100,18 @@ fn build_ui(app: &Application) {
             .get::<i32>()
             .expect("The value needs to be of type `i32`.");
 
-        println!("para : {}", parameter);
-
         if parameter == 1 {
             state += 1;
         } else {
             state -= 1;
         }
-        // Increase state by parameter and save state
+
+        ihm_utilits::info_col(1, &format!("value {} --> {} opt: {}", old_state, state, parameter));
 
         action.set_state(&state.to_variant());
 
         // Update label with new state
-        label.set_label(&format!("Counter: {state}"));
+        label.set_label(&format!("Counter: {}", state));
     }));
 
     window.add_action(&action_count);
