@@ -8,6 +8,8 @@ export OUTPUT="$3"
 export BUILDTYPE="$4"
 export APP_BIN="$5"
 
+ls $CARGO_TARGET_DIR
+
 if [ $BUILDTYPE = "release" ]
 then
     echo "RELEASE MODE"

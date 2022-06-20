@@ -15,6 +15,7 @@ dependency('gtk4', version: '>= 4.4')
 cargo_sources = files(
   'Cargo.toml',
   'Cargo.lock',
+  'build.rs'
 )
 
 subdir('src')

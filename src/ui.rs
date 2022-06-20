@@ -1,10 +1,10 @@
-use gio::SimpleAction;
 use glib::clone;
 use gtk::{gio, glib};
 use gtk::{prelude::*, Align};
 use gtk::{Application,ApplicationWindow, Button, Label, Orientation};
 
 use std::env;
+use std::sync::{Arc, Mutex};
 
 use crate::config::{APP_ID,GETTEXT_PACKAGE};
 use crate::ihm::ihm_utilits;
@@ -36,18 +36,12 @@ fn build_ui(app: &Application) {
     // Create a button with label and action
     let button_incr = Button::builder()
         .label("+")
-        .action_name("win.count")
-        .action_target(&1.to_variant())
         .build();
     let button_decr = Button::builder()
         .label("-")
-        .action_name("win.count")
-        .action_target(&2.to_variant())
         .build();
     let button_reset = Button::builder()
         .label("Reset")
-        .action_name("win.count")
-        .action_target(&3.to_variant())
         .build();
 
     let gtk_box_sub = gtk::Box::builder()
@@ -85,46 +79,37 @@ fn build_ui(app: &Application) {
         .child(&gtk_box)
         .build();
 
-    // Add action "count" to `window` taking an integer as parameter
-    let action_count = SimpleAction::new_stateful(
-        "count",
-        Some(&i32::static_variant_type()),
-        &original_state.to_variant(),
-    );
+    let counter = Arc::new(Mutex::new(0));
 
-    action_count.connect_activate(clone!(@weak label => move |action, parameter| {
-        // Get state
-        let old_state = action
-        .state()
-        .expect("Could not get state.")
-        .get::<i32>()
-        .expect("The value needs to be of type `i32`.");
 
-        let mut state = old_state;
-
-        // Get parameter
-        let parameter = parameter
-            .expect("Could not get parameter.")
-            .get::<i32>()
-            .expect("The value needs to be of type `i32`.");
-
-        match parameter {
-            1 => state += 1,
-            2 => state -= 1,
-            3 => state = 0,
-            _ => unimplemented!()
-        }
-
-        ihm_utilits::info_col(1, &format!("value {} --> {} opt: {}", old_state, state, parameter));
-
-        action.set_state(&state.to_variant());
-
-        // Update label with new state
-        label.set_label(&format!("Counter: {}", state));
+    button_incr.connect_clicked(clone!(@strong label, @strong counter => move |_| {
+        counter_hange(counter.clone(), 1, label.clone())
     }));
-
-    window.add_action(&action_count);
+    button_decr.connect_clicked(clone!(@strong label, @strong counter => move |_| {
+        counter_hange(counter.clone(), -1, label.clone())
+    }));
+    button_reset.connect_clicked(clone!(@strong label, @strong counter => move |_| {
+        counter_hange(counter.clone(), 0, label.clone())
+    }));
 
     // Present window
     window.present();
+}
+
+fn counter_hange(mut count: Arc<Mutex<isize>>, add: isize , change_lable: Label) {
+
+    let mut counter = count.lock().unwrap();
+    let old = *counter;
+
+    if add != 0 {
+        *counter += add;
+    } else {
+        *counter = 0;
+    }
+
+    change_lable.set_label(&counter.to_string());
+
+    ihm_utilits::info_col(1, &format!("value Counter {} -> {} ", old, counter));
+
+
 }
